@@ -1,7 +1,9 @@
 import { useState, useEffect } from "react"
+import { fetchCart } from "../../utilities/cart-service";
 
 export default function Cart () {
     const [cartItems, setCartItems] = useState([])
+    const [totalAmount, setTotalAmount] = useState(0);
 
     function updateQuantity(productId, amount) {
         let cart = JSON.parse(localStorage.getItem('cart')) || {};
@@ -44,11 +46,20 @@ export default function Cart () {
         return Object.values(cart)
       }
 
-
-      useEffect(()=>{
-        const cartData = getCart()
-        setCartItems(cartData)
-      }, [])
+      async function fetchCartData() {
+        try {
+          const cartData = await fetchCart();
+          setCartItems(cartData.products || []);
+          setTotalAmount(cartData.totalAmount || 0);
+        } catch (error) {
+          console.error(error);
+        }
+      }
+  
+      useEffect(() => {
+    
+        fetchCartData();
+      }, []);
       
     return (
         <div>

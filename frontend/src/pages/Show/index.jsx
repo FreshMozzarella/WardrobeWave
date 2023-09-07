@@ -1,6 +1,7 @@
 import {useState, useEffect} from 'react'
 import { useParams } from "react-router"
 import { getProduct } from "../../utilities/product-service"
+import { createOrUpdateCart } from "../../utilities/cart-service";
 
 export default function Show(){
     const [product, setProduct] = useState(null)
@@ -14,22 +15,23 @@ export default function Show(){
             console.log(err)
         }
     }
-    function addToCart(product) {
-        // Retrieve the cart from localStorage
-        let cart = JSON.parse(localStorage.getItem('cart')) || {};
-      
-        // Check if the product is already in the cart
-        if(cart[product._id]) {
-          // Increment the quantity of the product in the cart
-          cart[product._id].quantity += 1;
-        } else {
-          // Add the product to the cart with quantity 1
-          cart[product._id] = { ...product, quantity: 1 };
+    async function addToCart(product) {
+      try {
+        const cartData = {
+          products: [{ productId: product._id, quantity: 1 }],
+        };
+  
+        const response = await createOrUpdateCart(cartData);
+        if (response.error) {
+          throw new Error(response.error);
         }
-      
-        // Save the updated cart back to localStorage
-        localStorage.setItem('cart', JSON.stringify(cart));
+  
+        console.log("Cart updated:", response);
+      } catch (err) {
+        console.error(err);
       }
+    }
+  
     console.log(`Current Product: ${JSON.stringify(product)}`);
     useEffect(() => {
         handleRequest();
