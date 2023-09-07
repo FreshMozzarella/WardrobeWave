@@ -1,6 +1,6 @@
 
 
-const BASE_URL = `${process.env.REACT_APP_BASE_URL}/`;
+const BASE_URL = `${process.env.REACT_APP_BASE_URL}/product`;
 
 export async function index() {
   // Fetch uses an options object as a second arg to make requests

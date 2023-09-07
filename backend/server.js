@@ -15,6 +15,7 @@ const morgan = require('morgan')
 
 const productsRouter = require('./routes/product')
 const categoriesRouter = require('./routes/category')
+const cartsRouter = require('./routes/cart')
 ///////////////////////////////
 // APP CONFIG
 ////////////////////////////////
@@ -42,6 +43,8 @@ app.use(morgan('dev'))
 ////////////////////////////////
 app.use('/product', productsRouter)
 app.use('/category', categoriesRouter)
+app.use('/cart', cartsRouter)
+
 // hello world - test route
 
 app.get('/', (req,res)=>{
