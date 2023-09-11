@@ -1,5 +1,5 @@
 export async function createOrUpdateCart(cartRequest){
-    const createOrUpdateResponse = await fetch('http://localhost:4000/cart', {
+    const createOrUpdateResponse = await fetch(`${process.env.REACT_APP_BASE_URL}/cart`, {
         method:'POST',
         body:JSON.stringify(cartRequest), 
         headers:{
@@ -14,7 +14,7 @@ export async function createOrUpdateCart(cartRequest){
 
 export async function destroy(userId){
     try{
-        const deleteResponse = await fetch(`http://localhost:4000/cart/:${userId}`,{method:'DELETE'})
+        const deleteResponse = await fetch(`${process.env.REACT_APP_BASE_URL}/cart/:${userId}`,{method:'DELETE'})
         if(deleteResponse?.ok){
             console.log('converting to json');
             return true;

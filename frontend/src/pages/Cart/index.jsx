@@ -11,7 +11,6 @@ export default function Cart() {
   const [hasCheckedOut, setHasCheckedOut] = useState(false);
   const { isAuthenticated, loginWithRedirect, logout, user } = useAuth0();
   const history = useNavigate();
-
   const checkout = async () => {
     await destroy(user?.sub);
     setCart({});
@@ -36,7 +35,7 @@ export default function Cart() {
       try {
         console.log("usr ", user);
         let cartResponse = await fetch(
-          `http://localhost:4000/cart?user=${user?.sub}`
+          `${process.env.REACT_APP_BASE_URL}/cart?user=${user?.sub}`
         );
         cartResponse = await cartResponse.json();
         console.log("cart response converted");
@@ -77,7 +76,7 @@ export default function Cart() {
     if (user?.sub) {
       try {
         const response = await fetch(
-          `http://localhost:4000/cart/updateQuantity`,
+          `${process.env.REACT_APP_BASE_URL}/cart/updateQuantity`,
           {
             method: "POST",
             headers: {
@@ -106,7 +105,7 @@ export default function Cart() {
   const handleDecrement = async (productId) => {
     if (user?.sub) {
       try {
-        await fetch(`http://localhost:4000/cart/updateQuantity`, {
+        await fetch(`${process.env.REACT_APP_BASE_URL}/cart/updateQuantity`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
